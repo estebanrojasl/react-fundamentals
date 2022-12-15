@@ -10,7 +10,8 @@
     const className = 'container'
     const props = {children, className}
 
-    const element = <div {...props} />
+    // const element = <div {...props} />
+    const element = <div className={props.className}>{props.children}</div>
 
     ReactDOM.render(element, document.getElementById('root'))
   </script>
