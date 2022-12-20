@@ -12,8 +12,6 @@ function FocusDemo() {
     {id: 'pear', value: '🍐 pear'},
   ])
 
-  const [key, setKey] = React.useState(null)
-
   React.useEffect(() => {
     const id = setInterval(() => setItems(shuffle), 1000)
     return () => clearInterval(id)
@@ -33,7 +31,7 @@ function FocusDemo() {
 
   return (
     <div className="keys">
-      <div>
+      {/* <div>
         <h1>Without a key</h1>
         {items.map(item => (
           <input
@@ -53,23 +51,35 @@ function FocusDemo() {
             onChange={getChangeHandler(item)}
           />
         ))}
-      </div>
+      </div> */}
       <div>
         <h1>With a Proper Key</h1>
         {items.map(item => (
-          <input
-            className={`${item.id}-input`}
-            key={key}
-            value={item.value}
-            onChange={getChangeHandler(item)}
-            // by changing the key this way
-            // react thinks this is a new input but it doesnt really exist in the array
-            // so it doesnt update on the use effect
-            onFocus={() => setKey(item.id + 1)}
-          />
+          <InputComponent item={item} />
         ))}
       </div>
     </div>
+  )
+}
+
+const InputComponent = ({item}) => {
+  const [key, setKey] = React.useState(null)
+
+  React.useEffect(() => {
+    console.log(key)
+  }, [key])
+
+  return (
+    <input
+      className={`${item.id}-input`}
+      key={key}
+      value={item.value}
+      // onChange={getChangeHandler(item)}
+      // by changing the key this way
+      // react thinks this is a new input but it doesnt really exist in the array
+      // so it doesnt update on the use effect
+      onFocus={() => setKey(item.id + 1)}
+    />
   )
 }
 
